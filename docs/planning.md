@@ -41,11 +41,58 @@ without onboarding overhead.
 - Auth: JWT + bcrypt
 
 ## Database Design
-(Draw out your tables — users and tasks — with columns and types)
+
+                    +----------------------+
+                    |        USERS         |
+                    +----------------------+
+                    | PK  id              |
+                    |    name             |
+                    |    email (UNIQUE)   |
+                    |    password_hash    |
+                    |    created_at       |
+                    +----------------------+
+                              |
+                              | 1
+                              |
+                              |
+                              | N
+                    +----------------------+
+                    |        TASKS         |
+                    +----------------------+
+                    | PK  id              |
+                    | FK  user_id         |
+                    |    title            |
+                    |    description      |
+                    |    status           |
+                    |    priority         |
+                    |    category         |
+                    |    due_date         |
+                    |    created_at       |
+                    |    updated_at       |
+                    +----------------------+
 
 ## API Routes
-(List your endpoints — method, path, what it does, auth required?)
-
+┌────────┬───────────────────────────┬──────────────────────────────────────────────┬─────────────┐
+│ Method │ Endpoint                  │ Purpose                                      │ Auth        │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ POST   │ /api/auth/register        │ Create a new user account                    │ No          │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ POST   │ /api/auth/login           │ Authenticate user and return JWT             │ No          │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ GET    │ /api/auth/me              │ Get the current authenticated user profile   │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ GET    │ /api/tasks                │ Retrieve all tasks                           │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ POST   │ /api/tasks                │ Create a new task                            │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ GET    │ /api/tasks/:id            │ Retrieve a specific task                     │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ PUT    │ /api/tasks/:id            │ Update an existing task                      │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ DELETE │ /api/tasks/:id            │ Delete a task                                │ Yes         │
+├────────┼───────────────────────────┼──────────────────────────────────────────────┼─────────────┤
+│ GET    │ /api/tasks/stats/summary  │ Retrieve dashboard statistics                │ Yes         │
+└────────┴───────────────────────────┴──────────────────────────────────────────────┴─────────────┘
 ## Milestones
 1. Project setup
 2. Database schema
